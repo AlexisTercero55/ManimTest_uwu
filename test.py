@@ -70,3 +70,17 @@ class Test(Scene):
     def _Write(self, obj: Mobject , rt = 1 , wt = 0.5):
         self.play(Write(obj), run_time=rt)
         self.wait(wt)
+
+
+class THIS(Scene):
+    def construct(self):
+        self.camera.background_color =  '#f7df1e'
+        js = SVGMobject('assets/svg/js.svg').scale(6).move_to(np.array([1,-1,0]))
+
+        # this_ = Text(r'{THIS}', font_size=10,
+        #              font='monospace',weight=BOLD,
+        #             color=BLACK).scale(18).move_to(np.array([-2.2,4.8,0]))
+
+        self.play(Write(js), run_time=3)
+
+        self.wait(1.5)
