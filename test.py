@@ -1,64 +1,62 @@
 # Alexis Tercero 11/30/2022 uwu
 from manim import *
-
-class AnimationTest(Scene):
-    def construct(self):
-        l = 3
-        txt = Tex('Alexis')
-
-        sq1 = Square(side_length=l,
-                    stroke_color = '#3E78FF',
-                    fill_color = '#B38007',
-                    fill_opacity = 0.75
-                    )
-        sq1.set_opacity(0)
-
-        sq2 = Square(side_length=l,
-                    stroke_color = '#EB4B23',
-                    fill_color = '#19B377',
-                    fill_opacity = 0.75
-                    )
-        sq2.set_opacity(0)
-
-        tri = Triangle()
-        tri.set_opacity(0)
-
-        # creatw and arrange VGroup
-        G = VGroup(txt,sq1,sq2,tri)
-        G.arrange_in_grid(rows=2, buff=0.1)
-        self.add(G)
-
-        # Showing some creation mobjects animation types
-        self.play(Write(txt), run_time=2)
-        
-        sq1.set_opacity(1)
-        self.play(Create(sq1), run_time=2)
-
-        sq2.set_opacity(1)
-        self.play(DrawBorderThenFill(sq2), run_time=2)
-
-        tri.set_stroke(opacity=1)
-        self.play(Create(tri), run_time=2)
-        
-        # self.play(ShowSubmobjectsOneByOne(G,run_time=3))
-
-
-
 class Test(Scene):
     '''
     Here is declared how output looks like.
     '''
-
     def construct(self):
-        r = 1
-        s = Square(
-            side_length=5,
-            stroke_color = '#3E78FF',
-            fill_color = '#B38007',
-            fill_opacity = 0.75
-        )
+        # Mobjects
+        txt = Tex('Alexis').to_edge(UL, buff=0.5)
+        sq = Square(side_length=0.5, 
+                    fill_color=GREEN, 
+                    fill_opacity=0.75)
+        tri = Triangle().scale(0.6).to_edge(DR)
 
-        self.play(Create(s), run_time = 5)
+        # Creation animations
+        self.play(Write(txt)) 
+        self.play(DrawBorderThenFill(sq), run_time=2) 
+        self.play(Create(tri)) 
+        self.wait(2)
+
+        # .animate syntax for motion animation
+        rt = 2
+        self.play(txt.animate.to_edge(UR),
+                  run_time=rt)
+        self.play(sq.animate.to_edge(LEFT),
+                  run_time=rt)
+        self.play(sq.animate.move_to(ORIGIN),
+                  run_time=rt)
+        self.play(tri.animate.to_edge(DL),
+                  run_time=rt)
+        self.play(tri.animate.to_edge(DR),
+                  txt.animate.to_edge(UL),
+                  sq.animate.scale(2),
+                  run_time=rt)
         self.wait()
 
+
+
+code = '''class Graph {
+    constructor(directed = true) 
+    {
+    this.directed = directed;
+    this.nodes = [];
+    this.edges = new Map();
+    }
+  }
+}'''
+
+class WriteSnippet(Scene):
+    def construct(self):
+        snippet = Code(code=code, 
+                             tab_width=4, 
+                             background="window",
+                             language="js", 
+                             font="Monospace",
+                             font_size=12,)
+        self.play(Write(snippet), run_time=5)
+
+        # checking for bounded box
+        # snippet.add_background_rectangle(color=GREEN)
+        # self.add(snippet)
 
