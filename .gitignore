@@ -1,0 +1,6 @@
+__pycache__
+examples
+media
+*.png
+*.jpg
+*.mp4
