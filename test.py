@@ -1,86 +1,42 @@
 # Alexis Tercero 11/30/2022 uwu
 from manim import *
 import numpy as np
+from math import pow
+import random
+
+# own imports
+import sys
+sys.path.append('e:\\dev\\Python_Dev\\CoputerGraphics\\test\\code')
+from snippets import rHColor
 
 
-# TODO: Save this class as AnimateAlwaysRedraw class at ./notes/animations/AnimationTypes.ipynb
 class Test(Scene):
-    '''Tracking Mobjects and using always_redraw()'''
     def construct(self):
-        self.loadMobjects()
-
-        self.animateCration()
-
-        self.animateSyntax()
-        self.wait()
-
-    def animateSyntax(self):
-        # .animate syntax for motion animation
-        rt = 2
-        self.play(self.txt.animate.to_edge(UR),
-                  run_time=rt)
-        self.play(self.sq.animate.to_edge(LEFT),
-                  run_time=rt)
-        self.play(self.sq.animate.move_to(ORIGIN),
-                  run_time=rt)
-        self.play(self.tri.animate.to_edge(DL),
-                  run_time=rt)
-        self.play(self.tri.animate.to_edge(DR),
-                  self.txt.animate.to_edge(UL),
-                  self.sq.animate.scale(2),
-                  run_time=rt)
-
-    def animateCration(self):
-        # Creation animations
-        self.play(Write(self.txt)) 
-        self.play(DrawBorderThenFill(self.sq), run_time=2) 
-        self.play(Create(self.tri))
-        self.play(Create(self.arrowVG))
-        # self.play(Create(VGroup(*self.res), run_time=2))
-        self.wait(2)
-
-    def loadMobjects(self):
-        ''' Mobjects'''
-        self.txt = Tex('Alexis').to_edge(UL, buff=0.5)
-        self.sq = Square(side_length=0.5, 
-                        fill_color=GREEN, 
-                        fill_opacity=0.75)
-        self.tri = Triangle().scale(0.6).to_edge(DR)
-
-        self.redrawMobjects()
-
-    def redrawMobjects(self):
-        self.arrowVG = VGroup(always_redraw(
-                                lambda : Line(
-                                    start= self.sq.get_top(),
-                                    end= self.txt.get_bottom(), buff=0.2
-                                ).add_tip()
-                             ))
-        self.arrowVG.add(always_redraw(
-            lambda : Line(
-                start= self.sq.get_bottom(),
-                end= self.tri.get_top(), buff=0.2
-            ).add_tip()
-        ))
-
-    def _moveCopy(self, a : Mobject, b : Mobject, wt = 0.5):
-        self.play(Transform(a.copy(),b))
-        self.wait(wt)
-
-    def _Write(self, obj: Mobject , rt = 1 , wt = 0.5):
-        self.play(Write(obj), run_time=rt)
-        self.wait(wt)
+        ax = Axes(
+            x_range=[0,1.2,0.2],
+            y_range=[0,1.2,0.2],
+            # x_length=7,
+            tips=True,
+            axis_config={"include_numbers": True},
+        )
+        Ale = Text(
+            'Alexis',
+            t2c={'[:1]': '#3174f0', '[1:2]': '#e53125',
+                '[2:3]': '#fbb003', '[3:4]': '#3174f0',
+                '[4:5]': '#269a43', '[5:]': '#e53125'}, 
+                font_size=45)
+        Ale.move_to(np.array([4,3,0]))
+        self.play(Write(Ale))
 
 
-class THIS(Scene):
-    def construct(self):
-        self.camera.background_color =  '#f7df1e'
-        js = SVGMobject('assets/svg/js.svg').scale(6).move_to(np.array([1,-1,0]))
+        self.play(Write(ax),run_time = 2.5)
+        eq = MathTex('')
+        self.add(eq)
+        for n in range(2,3):
+            graph = ax.plot(lambda x: pow(x,1/n), x_range=[0, 10,0.001], use_smoothing=True)
+            graph.color = rHColor()
+            rep = MathTex('y = x',r'^{1\over',f'{n}','}').scale(2.5).move_to(np.array([0,-2,0]))
+            rep.color = graph.color
+            self.play(Transform(eq,rep))
 
-        # this_ = Text(r'{THIS}', font_size=10,
-        #              font='monospace',weight=BOLD,
-        #             color=BLACK).scale(18).move_to(np.array([-2.2,4.8,0]))
-
-        self.play(Write(js), run_time=3)
-
-        self.wait(1.5)
+            self.play(Create(graph), run_time = 2)
