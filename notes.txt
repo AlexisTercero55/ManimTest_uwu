@@ -36,3 +36,7 @@ CLI (high quality output and resolution output)
 Manim Snippets:
 
     url: https://flyingframes.readthedocs.io/en/latest/ch2.html
+
+SVG: WARNING  Unsupported element type: <class 'svgelements.svgelements.Text'>                           svg_mobject.py:426
+
+    text works with: https://maketext.io/
