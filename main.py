@@ -74,6 +74,12 @@ class ReactComponents(Scene):
         # # self.play(Write(self.snippet1), run_time=5)
 
 
+    def WCC(self,file:str,lang:str = 'js', y:float = 0,rt:int = 3):
+        '''Write custom code'''
+        snippet1 = self.customCode(file,y,lang)
+        self.play(Write(snippet1), run_time=rt)
+        # self.snippet1.move_to(np.array([0, 2, 0]))
+    
     def svgWriter(self,file:str,scale:float):
         svg_ = SVGMobject('assets/svg/'+file)#.scale(6).move_to(np.array([1,-1,0]))
         return svg_.scale(scale)
@@ -103,7 +109,7 @@ class ReactComponents(Scene):
 
 
 
-class CreateSVG(Scene):
+class DOM(Scene):
     def construct(self):
         '''Defining a DOM creation Scene'''
         self.colorPalette = {
@@ -117,16 +123,45 @@ class CreateSVG(Scene):
             'gray': '#b4b7be'
         }
         self.camera.background_color =  self.colorPalette['background']
-        svg_ = SVGMobject('assets/svg/DOM_Diagram2.svg')#.scale(6).move_to(np.array([1,-1,0]))
-        svg_.scale(5)
 
-        # this_ = Text(r'{THIS}', font_size=10,
-        #              font='monospace',weight=BOLD,
-        #             color=BLACK).scale(18).move_to(np.array([-2.2,4.8,0]))
+        self.WCC('index.html','html',5)
+        svg = self.svgWriter('this.svg',0.3,pos=[4.5,7.5,0])
+        self.svgWriter('DOM_Diagram2.svg',4.5,pos=[0,-3.5,0])
 
-        self.play(Write(svg_),run_time=5)
+        # self.wait(1.5)
 
-        self.wait(1.5)
+
+    def WCC(self,file:str,lang:str = 'js', y:float = 0,rt:int = 3):
+        '''Write custom code'''
+        snippet1 = self.customCode(file,y,lang)
+        self.play(Write(snippet1), run_time=rt)
+        return snippet1
+        # self.snippet1.move_to(np.array([0, 2, 0]))
+    
+    def svgWriter(self,file:str,scale:float=1,pos:list = [0, 0, 0],rt:int=3) -> SVGMobject:
+        svg_ = SVGMobject('assets/svg/'+file)#.scale(6).move_to(np.array([1,-1,0]))
+        svg_.scale(scale)
+        svg_.move_to(np.array(pos))
+        # svg.move_to()
+        self.play(Write(svg_),run_time=rt)
+        return svg_
+
+
+    def customCode(self,file,y,lang):
+        snippet = Code(file_name = file,
+                             tab_width=4, 
+                             background='window',
+                             language=lang,
+                             style=Code.styles_list[15],#8
+                             font="consolas",
+                             font_size=12,)
+        snippet.background_mobject[0].color = '#1F2937'
+        snippet.background_mobject[0].stroke_color = '#b4b7be'
+        snippet.background_mobject[0].stroke_width = 10
+        snippet.scale(2)
+        snippet.move_to(np.array([0,y,0]))
+
+        return snippet
 
 # ---------------------------------------------
 # class PlotUpdaters(Scene):
