@@ -5,3 +5,5 @@ media
 *.jpg
 *.mp4
 *.svg
+*.pm3
+assets/
