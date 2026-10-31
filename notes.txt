@@ -20,7 +20,7 @@ CLI (high quality output and resolution output)
         > manim --save_sections -pqh -r "1080,1350" main.py Snippet_3
 
     Render with different fps
-        > manim --save_sections -pqh --fps 30  -r "1080,1350" main.py Snippet_3
+        > manim --save_sections -pqh --fps 30  -r "1080,1920" main.py Snippet_3
 
         The -p flag plays the animation once it is rendered.
 

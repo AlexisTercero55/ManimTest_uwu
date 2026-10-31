@@ -1,6 +1,7 @@
 # @author: Alexis Tercero
-# from manim import *
+from manim import Text
 import random
+import numpy as np
 
 def uwu_txt(v = [4,3,0]):
     Ale = Text(
